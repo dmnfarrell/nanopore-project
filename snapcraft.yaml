@@ -1,0 +1,41 @@
+name: guppy-gpu
+version: '0.1.0'
+
+summary: experimental guppy gpu basecaller snap
+description: |
+  guppy is a GPU based basecaller for nanopore data
+base: core20
+grade: stable
+confinement: strict
+#icon: snap/gui/icon.png
+
+package-repositories:
+  - type: apt
+    formats: [deb, deb-src]
+    components: [main]
+    suites: [focal]
+    key-id: 7DC48F8EA3CEF634235DDADAAD9D09AF2EBBA5A8    
+    url: http://mirror.oxfordnanoportal.com/apt
+    
+apps:
+  snpgenie:
+    command: guppy_basecaller
+    plugs:
+      - home
+      - network
+      - network-bind
+    
+#    environment:
+#      LD_LIBRARY_PATH: $SNAP/usr/lib/ncbi-blast+
+
+parts:
+  guppy:
+    plugin: nil
+    stage-packages:
+      - minknow-core-minion-nc 
+      - ont-kingfisher-ui-minion
+      - ont-bream4-minion
+      - ont-configuration-customer-minion
+      - ont-jwt-auth
+      - ont-vbz-hdf-plugin
+      - ont-guppy
