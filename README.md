@@ -67,3 +67,16 @@ Basic test results
 ### Mbovis
 
 The HAC model with above settings took 44 minutes to process a set of M.bovis reads.
+
+## Alignment with minimap2
+
+We may align with minimap2 using the following command to create a sorted bam file as output.
+
+```
+minimap2 -ax map-ont -t 20 Mbovis_AF212297.fa test/TB20-3738.fastq.gz | samtools sort -o test/TB20-3738-ont.bam
+```
+
+## Variant calling
+
+We can call variants on the bam files with snipgenie as normal. Hence we can combine our test duplicates from previous illumina runs to compare sites. We ran three samples previously run twice with different sequencing runs on illumina.
+

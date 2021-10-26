@@ -1,5 +1,5 @@
 name: guppy-gpu
-version: '0.1.0'
+version: '5.0.16+b9fcd7b5b'
 
 summary: experimental guppy gpu basecaller snap
 description: |
@@ -9,25 +9,14 @@ grade: stable
 confinement: strict
 #icon: snap/gui/icon.png
 
-package-repositories:
-  - type: apt
-    formats: [deb, deb-src]
-    components: [main]
-    suites: [focal]
-    key-id: 7DC48F8EA3CEF634235DDADAAD9D09AF2EBBA5A8    
-    url: http://mirror.oxfordnanoportal.com/apt
-    
 apps:
-  snpgenie:
-    command: guppy_basecaller
+  guppy:
+    command: opt/ont/guppy/bin/guppy_basecaller
     plugs:
       - home
       - network
       - network-bind
     
-#    environment:
-#      LD_LIBRARY_PATH: $SNAP/usr/lib/ncbi-blast+
-
 parts:
   guppy:
     plugin: nil
@@ -38,4 +27,14 @@ parts:
       - ont-configuration-customer-minion
       - ont-jwt-auth
       - ont-vbz-hdf-plugin
-      - ont-guppy
+      - ont-guppy   
+    after: [ont-repo]
+    
+  ont-repo:
+    plugin: nil
+    build-packages:    
+      - wget
+    override-pull: |
+          wget -O- https://mirror.oxfordnanoportal.com/apt/ont-repo.pub | sudo apt-key add -
+          echo "deb http://mirror.oxfordnanoportal.com/apt focal-stable non-free" | sudo tee /etc/apt/sources.list.d/nanoporetech.sources.list
+          apt -y update
